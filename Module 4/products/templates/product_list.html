@@ -1,0 +1,29 @@
+<h1>Product List</h1>
+
+<form method="GET" action="{% url 'search_product' %}">
+    <input type="text" name="q" placeholder="Search Products...">
+    <button type="submit">Search</button>
+</form>
+<ul>
+    {% for product in products %}
+        <li>
+            <strong>{{ product.product_name }}</strong> <!-- Display product name -->
+            <ul>
+                {% for subcat in product.subcategories.all %} <!-- Access related subcategories -->
+                    <li>
+                        <strong>Model:</strong> {{ subcat.product_model }}<br>
+                        <strong>Price:</strong> {{ subcat.product_price }}<br>
+                        <strong>RAM:</strong> {{ subcat.product_ram }}<br>
+                        <img src="{{ subcat.product_image.url }}" alt="{{ subcat.product_model }}" style="width: 100px; height: auto;"><br>
+                        <a href="{% url 'edit_product' subcat.pk %}">Edit</a> <!-- Link to edit the subcategory -->
+                        <a href="{% url 'delete_product' subcat.pk %}">Delete</a> <!-- Link to delete the subcategory -->
+                    </li>
+                {% empty %}
+                    <li>No subcategory details available.</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% empty %}
+        <li>No products found.</li>
+    {% endfor %}
+</ul>

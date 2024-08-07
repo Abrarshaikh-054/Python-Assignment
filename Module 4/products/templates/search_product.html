@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <form method="GET" action="{% url 'search_product' %}">
+        <input type="text" name="q" placeholder="Search Products...">
+        <button type="submit">Search</button>
+    </form>
+    
+    {% if products %}
+    <ul>
+        
+            {% for subcategory in subcategories %}
+                <li>
+                    <strong>{{ subcategory.product.product_name }}</strong><br>
+                    Model: {{ subcategory.product_model }}<br>
+                    Price: {{ subcategory.product_price }}<br>
+                    RAM: {{ subcategory.product_ram }}<br>
+                    <img src="{{ subcategory.product_image.url }}" alt="{{ subcategory.product_model }}" width="100">
+                </li>
+            {% endfor %}
+    </ul>
+    {% else %}
+    <h3>No products found</h3>
+    {% endif %}
+
+    <a href="{% url 'product_list' %}">Back to Product List</a>
+</body>
+</html>
